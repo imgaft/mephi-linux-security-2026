@@ -1,0 +1,72 @@
+    1  whoami
+    2  findmnt /
+    3  cat /proc/cmdline
+    4  sudo groupadd students
+    5  sudo useradd -m -u 1234 -g students user1
+    6  sudo passwd user1
+    7  sudo chage -M 90 user1
+    8  id user1
+    9  getent passwd user1
+   10  getent group students
+   11  sudo chage -l user1
+   12  stat /home/user1
+   13  sudo find / -type f -perm -4000 -print 2>/dev/null | tee ~/setuid-files.out
+   14  cat ~/setuid-files.out
+   15  ps -eo pid,ruid,euid,user,comm | awk '$3 == 0 && $2 != 0'
+   16  ps -eo pid,ruid,euid,user,comm | awk '$3 == 0 && $2 != 0' | tee ~/privileged-processes.out
+   17  sudo sh -c 'echo "SECRET: setuid works" > /root/secret.txt'
+   18  sudo chmod 600 /root/secret.txt
+   19  sudo -u user1 cat /root/secret.txt
+   20  sudo cp /usr/bin/cat /home/user1/cat-suid
+   21  sudo chown root:students /home/user1/cat-suid
+   22  sudo chmod 4755 /home/user1/cat-suid
+   23  sudo ls -l /home/user1/cat-suid
+   24  sudo -u user1 /home/user1/cat-suid /root/secret.txt
+   25  sudo -u user1 touch /home/user1/testfile
+   26  sudo -u user1 chown root /home/user1/testfile
+   27  sudo cp /usr/bin/chown /home/user1/chown-cap
+   28  sudo chown user1:students /home/user1/chown-cap
+   29  sudo chmod 755 /home/user1/chown-cap
+   30  sudo setcap cap_chown+ep /home/user1/chown-cap
+   31  sudo getcap /home/user1/chown-cap
+   32  sudo -u user1 /home/user1/chown-cap root /home/user1/testfile
+   33  sudo ls -l /home/user1/testfile
+   34  which date
+   35  echo 'user1 ALL=(root) /usr/bin/date' | sudo tee /etc/sudoers.d/user1-date
+   36  sudo chmod 440 /etc/sudoers.d/user1-date
+   37  sudo visudo -cf /etc/sudoers.d/user1-date
+   38  sudo -l -U user1
+   39  sudo -u user1 /usr/bin/date -s "2026-10-05 10:10:00"
+   40  sudo -u user1 sudo /usr/bin/date -s "2026-10-05 10:10:00"
+   41  date
+   42  echo "373450"
+   43  history > ~/history.out
+   44  sudo stat /home/user1 > ~/stat.out
+   45  sudo stat /home/user1/cat-suid >> ~/stat.out
+   46  sudo stat /home/user1/chown-cap >> ~/stat.out
+   47  sudo getcap /home/user1/chown-cap > ~/getcap.out
+   48  ls -lh ~/history.out ~/stat.out ~/getcap.out ~/setuid-files.out ~/privileged-processes.out
+   49  mkdir -p ~/mephi-linux-security-2026
+   50  cp ~/history.out ~/mephi-linux-security-2026/
+   51  cp ~/stat.out ~/mephi-linux-security-2026/
+   52  cp ~/getcap.out ~/mephi-linux-security-2026/
+   53  cp ~/setuid-files.out ~/mephi-linux-security-2026/
+   54  cp ~/privileged-processes.out ~/mephi-linux-security-2026/
+   55  cp /etc/passwd ~/mephi-linux-security-2026/
+   56  sudo cp /etc/shadow ~/mephi-linux-security-2026/
+   57  cp /etc/group ~/mephi-linux-security-2026/
+   58  sudo cp /etc/sudoers ~/mephi-linux-security-2026/
+   59  sudo cp /etc/sudoers.d/user1-date ~/mephi-linux-security-2026/
+   60  sudo ls -lh ~/mephi-linux-security-2026/
+   61  ls -lh ~/Downloads
+   62  ls -la /mnt
+   63  ls -la /media
+   64  sudo mkdir -p /mnt/share
+   65  sudo mount -t 9p -o trans=virtio share /mnt/share
+   66  ls -la /mnt/share
+   67  cp /mnt/share/mephi-screenshot.png ~/mephi-linux-security-2026/
+   68  ls -lh ~/mephi-linux-security-2026/
+   69  history | head
+   70  history | tail -30
+   71  history | tail -50
+   72  history > ~/mephi-linux-security-2026/history.out
